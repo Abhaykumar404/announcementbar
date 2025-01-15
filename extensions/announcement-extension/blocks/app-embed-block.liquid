@@ -1,0 +1,33 @@
+<div id="ia-announcement-bar-parent-div">
+  {% liquid
+    # Relative to entrypointsDir
+
+    render 'vite-tag' with 'theme.jsx'
+    render 'vite-tag' with 'theme.css'
+  %}
+
+  {% comment %} render 'vite-tag' with 'theme.css' {% endcomment %}
+  {% comment %} render 'vite-tag' with 'theme.jsx' {% endcomment %}
+</div>
+
+<script>
+  const listOfPublishedIncredibleAnnouncements = {{ shop.metafields.incredibleApp.announcementBar }}
+  window.listOfPublishedIncredibleAnnouncements = listOfPublishedIncredibleAnnouncements
+
+  const shopLocaleForAnnouncementBar = {{ request.locale | json }}
+
+  window.shopLocaleForAnnouncementBar = shopLocaleForAnnouncementBar
+
+  {% comment %} const shop = {{ shop.metafields.namespace.key }} {% endcomment %}
+
+  {% comment %} const shop = {{ shop.metafields.upcartEditorSettings.discountCodeButtonText }} {% endcomment %}
+</script>
+
+{% schema %}
+{
+  "name": "IA: Announcement Bar",
+  "target": "body",
+  "settings": []
+}
+{% endschema %}
+{% comment %} "stylesheet": "theme-Dh-Wnogy.css" {% endcomment %}

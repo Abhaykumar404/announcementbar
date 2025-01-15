@@ -1,0 +1,23 @@
+<div
+  id="ia-announcement-block-{{ block.settings.announcement_id }}"
+  announcementId="{{ block.settings.announcement_id }}"
+  class="ia-announcement-block"
+></div>
+
+{% schema %}
+{
+  "name": "IA: Announcement Bar",
+  "target": "section",
+  "enabled_on": {
+    "templates": ["*"],
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "announcement_id",
+      "label": "Announcement ID"
+    }
+  ]
+}
+{% endschema %}

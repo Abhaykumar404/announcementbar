@@ -1,0 +1,37 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+
+client_id = "b64a3a1cc368f7a7f39301d9d7112784"
+application_url = "https://collaboration-youth-values-jamie.trycloudflare.com"
+embedded = true
+name = "app-test"
+handle = "app-test-680"
+
+[webhooks]
+api_version = "2024-10"
+
+  [[webhooks.subscriptions]]
+  topics = [ "app/uninstalled" ]
+  uri = "/webhooks/app/uninstalled"
+
+  [[webhooks.subscriptions]]
+  topics = [ "app/scopes_update" ]
+  uri = "/webhooks/app/scopes_update"
+
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
+scopes = "write_products"
+
+[auth]
+redirect_urls = [
+  "https://collaboration-youth-values-jamie.trycloudflare.com/auth/callback",
+  "https://collaboration-youth-values-jamie.trycloudflare.com/auth/shopify/callback",
+  "https://collaboration-youth-values-jamie.trycloudflare.com/api/auth/callback"
+]
+
+[pos]
+embedded = false
+
+[build]
+dev_store_url = "otaku231.myshopify.com"
+automatically_update_urls_on_dev = true
+include_config_on_deploy = true

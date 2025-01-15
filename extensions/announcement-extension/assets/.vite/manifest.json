@@ -1,0 +1,20 @@
+{
+  "app/theme-app-extension/entrypoints/theme.css": {
+    "file": "theme-l0sNRNKZ.js",
+    "name": "theme",
+    "src": "app/theme-app-extension/entrypoints/theme.css",
+    "isEntry": true
+  },
+  "app/theme-app-extension/entrypoints/theme.jsx": {
+    "file": "theme-2LBDdYyB.js",
+    "name": "theme",
+    "src": "app/theme-app-extension/entrypoints/theme.jsx",
+    "isEntry": true,
+    "imports": [
+      "app/theme-app-extension/entrypoints/theme.css"
+    ],
+    "css": [
+      "theme-D7Qjxn6P.css"
+    ]
+  }
+}

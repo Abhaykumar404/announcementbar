@@ -1,0 +1,174 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Note that some adapters may set a maximum length for the String type by default, please ensure your strings are long
+// enough when changing adapters.
+// See https://www.prisma.io/docs/orm/reference/prisma-schema-reference#string for more information
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Session {
+  id            String    @unique
+  mongoDbId     String    @id @default(auto()) @map("_id") @db.ObjectId
+  shop          String
+  state         String
+  isOnline      Boolean   @default(false)
+  scope         String?
+  expires       DateTime?
+  accessToken   String
+  userId        BigInt?
+  firstName     String?
+  lastName      String?
+  email         String?
+  accountOwner  Boolean   @default(false)
+  locale        String?
+  collaborator  Boolean?  @default(false)
+  emailVerified Boolean?  @default(false)
+}
+
+// Define the StoreUser collection
+model StoreUser {
+  id                              String    @id @default(auto()) @map("_id") @db.ObjectId
+  shop                            String    @unique
+  shopDomain                      String?
+  name                            String?
+  email                           String?
+  phone                           String?
+  country                         String?
+  numberOfTimesCartDisplayed      Int?
+  billingOn                       DateTime? // date when the billing is done
+  isSubscritionAccepted           Boolean?  @default(false)
+  totalRevenue                    Float? // Define the one-to-many relationship with the Order collection
+  totalOrdersCountForBillingCycle Int?      @default(0) // total number of orders for the billing cycle (i.e 30 days)
+  usagePriceRecordForBillingCycle Json[] // usage plan price ($10 if the usage is more than 200 orders)
+  recurringPricingSubscriptionId  String? // recurring pricing subscription id
+  usagePricingSubscriptionId      String? // usage pricing subscription id
+  recurringPlanPrice              Float? // recurring plan price (e.g. $19/month)
+}
+
+model Announcement {
+  id                        String                        @id @default(auto()) @map("_id") @db.ObjectId
+  shop                      String
+  name                      String?
+  published                 Boolean?                      @default(false)
+  type                      String? // type of the announcement - Single, Rotating, Marquee
+  announcementPageType      String?                       @default("top-bottom-bar") // type of the announcement page - top-bottom-bar, cart-page
+  singleAnnouncementText    AnnouncementContentSettings?
+  multipleAnnouncementTexts AnnouncementContentSettings[]
+  settings                  AnnouncementSettings?
+  styles                    AnnouncementStyles?
+  placement                 AnnouncementPlacement?
+  createdAt                 DateTime                      @default(now())
+  updatedAt                 DateTime                      @updatedAt
+}
+
+type AnnouncementContentSettings {
+  id                                 String?
+  iconUrl                            String?
+  announcementTitle                  String?
+  announcementTitleTranslations      Translations[]
+  announcementSubheading             String?
+  announcementSubheadingTranslations Translations[]
+  CTAType                            String?
+  CTAUrl                             String?
+  buttonText                         String?
+  buttonTextTranslations             Translations[]
+}
+
+type AnnouncementSettings {
+  position                           String? // position of the announcement
+  positionSticky                     Boolean?
+  autoRotateMultipleAnnouncementText Boolean?
+  rotatingAnimationDuration          String?
+  showNavigationArrows               Boolean?  @default(true)
+  showCloseButton                    Boolean?  @default(false)
+  runningLineAnnouncementSpeed       String?
+  runningLineAnnouncementTextGap     String?
+  startDate                          DateTime?
+  startDateTimeType                  String?
+  startHours                         Int?
+  startMinutes                       Int?
+  startPeriod                        String?
+  endDate                            DateTime?
+  endDateTimeType                    String?
+  endHours                           Int?
+  endMinutes                         Int?
+  endPeriod                          String?
+}
+
+type Translations {
+  language    String?
+  translation String?
+}
+
+type AnnouncementStyles {
+  selectedTemplate      String?
+  backgroundType        String?
+  singleColor           String?
+  gradientTurn          Int?
+  gradientStart         String?
+  gradientEnd           String?
+  borderRadius          String?
+  borderSize            String?
+  borderColor           String?
+  titleSize             String?
+  titleColor            String?
+  fontFamily            String?
+  subheadingSize        String?
+  subheadingColor       String?
+  buttonBackgroundColor String?
+  buttonFontSize        String?
+  buttonFontColor       String?
+  buttonBorderRadius    String?
+  closeIconColor        String?
+  arrowIconColor        String?
+  spacing               Spacing?
+  // icon                  Icon?
+}
+
+// type Icon {
+//   size          String?
+//   originalColor Boolean?
+//   color         Color?
+//   background    Background?
+//   cornerRadius  String?
+// }
+
+type Color {
+  hex String?
+}
+
+type Background {
+  hex   String?
+  alpha Float?
+  rgba  String?
+}
+
+type Spacing {
+  insideTop     Int?
+  insideBottom  Int?
+  outsideTop    Int?
+  outsideBottom Int?
+}
+
+type AnnouncementPlacement {
+  placementPosition                String?
+  showOnProducts                   PlacementSelectors[]
+  showOnCollections                PlacementSelectors[]
+  showOnProductsInCollections      PlacementSelectors[]
+  geolocationTargetingLocationType String?
+  specificCountries                String[]
+}
+
+type PlacementSelectors {
+  gId     String?
+  title   String?
+  handle  String?
+  shortId String?
+}
